@@ -1,0 +1,110 @@
+.auth {
+	width: 100%;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+  }
+  
+  .auth__container {
+	background: white;
+	padding: 2.5rem;
+	border-radius: 1rem;
+	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+	width: 100%;
+	max-width: 440px;
+	transition: transform 0.3s ease;
+  }
+  
+  .auth__container:hover {
+	transform: translateY(-5px);
+  }
+  
+  .auth img {
+	width: 100%;
+	max-width: 150px;
+	height: auto;
+	object-fit: contain;
+	margin-bottom: 2rem;
+  }
+  
+  .auth__form > div {
+	margin-bottom: 1.5rem;
+  }
+  
+  .auth__form input {
+	width: 100%;
+	padding: 0.75rem 1rem;
+	border: 2px solid #e4e9f2;
+	border-radius: 0.5rem;
+	font-size: 1rem;
+	transition: all 0.3s ease;
+  }
+  
+  .auth__form input:focus {
+	border-color: #3b82f6;
+	box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+	outline: none;
+  }
+  
+  .auth__action {
+	margin-top: 2rem;
+	text-align: center;
+  }
+  
+  .auth__action .button {
+	width: 100%;
+	padding: 0.75rem;
+	background: #3b82f6;
+	color: white;
+	border: none;
+	border-radius: 0.5rem;
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.3s ease;
+  }
+  
+  .auth__action .button:hover {
+	background: #2563eb;
+	transform: translateY(-2px);
+  }
+  
+  .auth__action p {
+	margin-top: 1rem;
+	color: #64748b;
+  }
+  
+  .auth__action a {
+	color: #3b82f6;
+	text-decoration: none;
+	font-weight: 500;
+	transition: color 0.3s ease;
+  }
+  
+  .auth__action a:hover {
+	color: #2563eb;
+	text-decoration: underline;
+  }
+  
+  .auth__message {
+	text-align: center;
+	padding: 1rem;
+	margin-top: 1rem;
+	border-radius: 0.5rem;
+	background: #f0f9ff;
+	color: #0369a1;
+  }
+  
+  .auth__error {
+	background: #fef2f2;
+	color: #dc2626;
+  }
+  
+  @media (max-width: 640px) {
+	.auth__container {
+	  padding: 1.5rem;
+	}
+  }

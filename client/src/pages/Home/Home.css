@@ -1,0 +1,336 @@
+.home-container {
+  min-height: 100vh;
+  width: 100%;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%); /* Novo gradiente de fundo */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+}
+
+/* Hero Section */
+.hero-section {
+  text-align: center;
+  margin: 2rem 0;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.main-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #1e293b; /* Nova cor de texto escuro */
+}
+
+.gradient-text {
+  background: linear-gradient(45deg, #3b82f6, #2563eb); /* Novo gradiente de azul */
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: #64748b; /* Nova cor de texto médio */
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Card Container */
+.card-container {
+  width: 100%;
+  max-width: 800px;
+  background: #ffffff; /* Fundo branco para o container */
+  padding: 2rem;
+  border-radius: 24px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Input Section */
+.input-wrapper {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.url-input {
+  flex: 1;
+  padding: 1.2rem 1.5rem;
+  border: 2px solid #e4e9f2; /* Nova cor de borda para inputs */
+  border-radius: 16px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #ffffff; /* Fundo branco para inputs */
+}
+
+.url-input:focus {
+  border-color: #3b82f6; /* Nova cor de borda para inputs em foco */
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); /* Sombra azul em foco */
+}
+
+.shorten-button {
+  padding: 0 2rem;
+  background-color: #3b82f6; /* Nova cor de fundo para botões */
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 150px;
+}
+
+.shorten-button:hover {
+  background-color: #2563eb; /* Nova cor de fundo para botões em hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2); /* Sombra azul em hover */
+}
+
+.shorten-button.loading {
+  opacity: 0.8;
+  cursor: wait;
+}
+
+/* Spinner */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s linear infinite;
+}
+
+/* Result Section */
+.result-container {
+  background: #f0f9ff;  /* Nova cor de fundo para sucesso/info */
+  border-radius: 16px;
+  padding: 1.5rem;
+  animation: slideUp 0.4s ease-out;
+}
+
+.result-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.success-icon {
+  background: #0369a1; /* Nova cor de fundo para ícone de sucesso */
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+.shortened-url-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  background: white;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.shortened-url {
+  flex: 1;
+  color: #3b82f6; /* Nova cor de link */
+  text-decoration: none;
+  font-weight: 500;
+  word-break: break-all;
+}
+
+.copy-button {
+  padding: 0.5rem 1rem;
+  background-color: #3b82f6; /* Nova cor de fundo para botões */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.copy-button:hover {
+  background-color: #2563eb; /* Nova cor de fundo para botões em hover */
+}
+
+/* Features Section */
+.features-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  max-width: 1000px;
+  margin: 2rem 0;
+}
+
+.feature-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 20px;
+  text-align: center;
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #3b82f6; /* Nova cor para ícones */
+}
+
+/* CTA Section */
+.cta-section {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.login-button {
+  margin-top: 1rem;
+  padding: 1rem 2.5rem;
+  background: transparent;
+  border: 2px solid #3b82f6; /* Nova cor de borda para botões */
+  color: #3b82f6; /* Nova cor de texto para botões */
+  border-radius: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #3b82f6; /* Nova cor de fundo para botões em hover */
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Error Styles */
+.error-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #fef2f2; /* Cor de fundo para erro mantida */
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  animation: shake 0.5s ease-in-out;
+}
+
+.error-icon {
+  background: #dc2626;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .main-title {
+    font-size: 2.5rem;
+  }
+
+  .input-wrapper {
+    flex-direction: column;
+  }
+
+  .shorten-button {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .shortened-url-container {
+    flex-direction: column;
+  }
+
+  .copy-button {
+    width: 100%;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .home-container {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  }
+
+  .main-title {
+    color: white;
+  }
+
+  .subtitle {
+    color: #94a3b8;
+  }
+
+  .card-container,
+  .feature-card {
+    background: #1f2937;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+  }
+
+  .url-input {
+    background: #1e293b;
+    border-color: #4b5563;
+    color: white;
+  }
+
+  .shortened-url-container {
+    background: #1e293b
+  }
+}
