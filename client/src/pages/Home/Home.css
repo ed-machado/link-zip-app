@@ -1,51 +1,79 @@
+/* Base Styles */
+:root {
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --text-dark: #1e293b;
+  --text-medium: #64748b;
+  --bg-white: #ffffff;
+  --bg-light: #f8fafc;
+  --border-color: #e2e8f0;
+  --success-bg: #f0fdf4;
+  --success-text: #166534;
+  --error-bg: #fef2f2;
+  --error-text: #dc2626;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Container & Layout */
 .home-container {
   min-height: 100vh;
   width: 100%;
-  padding: 2rem;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%); /* Novo gradiente de fundo */
+  padding: clamp(1rem, 5vw, 2rem);
+  background: var(--bg-white);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3rem;
+  gap: clamp(2rem, 5vw, 3rem);
 }
 
 /* Hero Section */
 .hero-section {
   text-align: center;
-  margin: 2rem 0;
-  animation: fadeInUp 0.8s ease-out;
+  margin: clamp(1.5rem, 4vw, 2rem) 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .main-title {
-  font-size: 3.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #1e293b; /* Nova cor de texto escuro */
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  font-weight: 800;
+  margin-bottom: clamp(0.75rem, 2vw, 1rem);
+  color: var(--text-dark);
+  line-height: 1.2;
 }
 
 .gradient-text {
-  background: linear-gradient(45deg, #3b82f6, #2563eb); /* Novo gradiente de azul */
+  background: linear-gradient(45deg, var(--primary), var(--primary-hover));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .subtitle {
-  font-size: 1.2rem;
-  color: #64748b; /* Nova cor de texto médio */
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: var(--text-medium);
   max-width: 600px;
   margin: 0 auto;
+  line-height: 1.6;
 }
 
 /* Card Container */
 .card-container {
   width: 100%;
   max-width: 800px;
-  background: #ffffff; /* Fundo branco para o container */
-  padding: 2rem;
-  border-radius: 24px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-  animation: fadeIn 0.5s ease-out;
+  background: var(--bg-light);
+  padding: clamp(1.5rem, 4vw, 2rem);
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-container:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
 }
 
 /* Input Section */
@@ -57,38 +85,49 @@
 
 .url-input {
   flex: 1;
-  padding: 1.2rem 1.5rem;
-  border: 2px solid #e4e9f2; /* Nova cor de borda para inputs */
-  border-radius: 16px;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background: #ffffff; /* Fundo branco para inputs */
+  background: var(--bg-white);
+  color: var(--text-dark);
 }
 
 .url-input:focus {
-  border-color: #3b82f6; /* Nova cor de borda para inputs em foco */
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); /* Sombra azul em foco */
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  outline: none;
+}
+
+.url-input::placeholder {
+  color: var(--text-medium);
+  opacity: 0.8;
 }
 
 .shorten-button {
-  padding: 0 2rem;
-  background-color: #3b82f6; /* Nova cor de fundo para botões */
+  padding: 0 1.5rem;
+  background-color: var(--primary);
   color: white;
   border: none;
-  border-radius: 16px;
+  border-radius: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 150px;
+  min-width: 140px;
 }
 
 .shorten-button:hover {
-  background-color: #2563eb; /* Nova cor de fundo para botões em hover */
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2); /* Sombra azul em hover */
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.shorten-button:active {
+  transform: translateY(0);
 }
 
 .shorten-button.loading {
@@ -100,7 +139,7 @@
 .spinner {
   width: 20px;
   height: 20px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   border-top-color: white;
   animation: spin 1s linear infinite;
@@ -108,10 +147,11 @@
 
 /* Result Section */
 .result-container {
-  background: #f0f9ff;  /* Nova cor de fundo para sucesso/info */
-  border-radius: 16px;
-  padding: 1.5rem;
-  animation: slideUp 0.4s ease-out;
+  background: var(--success-bg);
+  border-radius: 12px;
+  padding: 1.25rem;
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(22, 101, 52, 0.1);
 }
 
 .result-header {
@@ -119,10 +159,11 @@
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 1rem;
+  color: var(--success-text);
 }
 
 .success-icon {
-  background: #0369a1; /* Nova cor de fundo para ícone de sucesso */
+  background: var(--success-text);
   color: white;
   width: 24px;
   height: 24px;
@@ -137,85 +178,110 @@
   display: flex;
   gap: 1rem;
   align-items: center;
-  background: white;
+  background: var(--bg-white);
   padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
 }
 
 .shortened-url {
   flex: 1;
-  color: #3b82f6; /* Nova cor de link */
+  color: var(--primary);
   text-decoration: none;
   font-weight: 500;
   word-break: break-all;
+  transition: color 0.2s ease;
+}
+
+.shortened-url:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
 }
 
 .copy-button {
   padding: 0.5rem 1rem;
-  background-color: #3b82f6; /* Nova cor de fundo para botões */
+  background-color: var(--primary);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
+  font-weight: 500;
 }
 
 .copy-button:hover {
-  background-color: #2563eb; /* Nova cor de fundo para botões em hover */
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.copy-button:active {
+  transform: translateY(0);
 }
 
 /* Features Section */
 .features-section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
+  gap: clamp(1.5rem, 4vw, 2rem);
   width: 100%;
   max-width: 1000px;
-  margin: 2rem 0;
+  margin: clamp(1.5rem, 4vw, 2rem) 0;
 }
 
 .feature-card {
-  background: white;
-  padding: 2rem;
-  border-radius: 20px;
+  background: var(--bg-white);
+  padding: 1.75rem;
+  border-radius: 12px;
   text-align: center;
-  transition: transform 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
 }
 
 .feature-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
 }
 
 .feature-icon {
   font-size: 2rem;
   margin-bottom: 1rem;
-  color: #3b82f6; /* Nova cor para ícones */
+  color: var(--primary);
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+  transform: scale(1.1);
 }
 
 /* CTA Section */
 .cta-section {
   text-align: center;
-  margin: 2rem 0;
+  margin: clamp(1.5rem, 4vw, 2rem) 0;
 }
 
 .login-button {
   margin-top: 1rem;
-  padding: 1rem 2.5rem;
+  padding: 0.875rem 2rem;
   background: transparent;
-  border: 2px solid #3b82f6; /* Nova cor de borda para botões */
-  color: #3b82f6; /* Nova cor de texto para botões */
-  border-radius: 16px;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  border-radius: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .login-button:hover {
-  background-color: #3b82f6; /* Nova cor de fundo para botões em hover */
+  background-color: var(--primary);
   color: white;
-  transform: translateY(-2px);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.login-button:active {
+  transform: translateY(0);
 }
 
 /* Error Styles */
@@ -224,14 +290,15 @@
   align-items: center;
   gap: 0.75rem;
   padding: 1rem;
-  background: #fef2f2; /* Cor de fundo para erro mantida */
-  border-radius: 12px;
+  background: var(--error-bg);
+  border-radius: 8px;
   margin-bottom: 1rem;
-  animation: shake 0.5s ease-in-out;
+  animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  border: 1px solid rgba(220, 38, 38, 0.1);
 }
 
 .error-icon {
-  background: #dc2626;
+  background: var(--error-text);
   color: white;
   width: 24px;
   height: 24px;
@@ -244,8 +311,14 @@
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { 
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeInUp {
@@ -282,10 +355,6 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .main-title {
-    font-size: 2.5rem;
-  }
-
   .input-wrapper {
     flex-direction: column;
   }
@@ -293,44 +362,20 @@
   .shorten-button {
     width: 100%;
     min-width: unset;
+    padding: 1rem;
   }
 
   .shortened-url-container {
     flex-direction: column;
+    gap: 0.75rem;
   }
 
   .copy-button {
     width: 100%;
-  }
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .home-container {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    padding: 0.75rem;
   }
 
-  .main-title {
-    color: white;
-  }
-
-  .subtitle {
-    color: #94a3b8;
-  }
-
-  .card-container,
   .feature-card {
-    background: #1f2937;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
-  }
-
-  .url-input {
-    background: #1e293b;
-    border-color: #4b5563;
-    color: white;
-  }
-
-  .shortened-url-container {
-    background: #1e293b
+    padding: 1.5rem;
   }
 }

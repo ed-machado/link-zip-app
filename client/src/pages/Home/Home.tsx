@@ -1,148 +1,247 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { encurtarUrl } from '../../Services/urlServices';
 import './Home.css';
 
+// Types
+interface UrlResponse {
+  urlCode: string;
+  error?: string;
+}
+
+interface FormState {
+  originalUrl: string;
+  shortenedUrl: string;
+  error: string;
+  isLoading: boolean;
+  isCopied: boolean;
+  showSuccessMessage: boolean;
+}
+
+// Initial state
+const initialFormState: FormState = {
+  originalUrl: '',
+  shortenedUrl: '',
+  error: '',
+  isLoading: false,
+  isCopied: false,
+  showSuccessMessage: false
+};
+
 function Home() {
-  const [urlOriginal, setUrlOriginal] = useState('');
-  const [urlEncurtada, setUrlEncurtada] = useState('');
-  const [erro, setErro] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  // States
+  const [formState, setFormState] = useState<FormState>(initialFormState);
   const navigate = useNavigate();
 
-  const handleEncurtar = async () => {
-    if (!urlOriginal.trim()) {
-      setErro('Por favor, insira uma URL válida.');
+  // URL validation
+  const isValidUrl = (url: string): boolean => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  // URL change handler
+  const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setFormState(prev => ({
+      ...prev,
+      originalUrl: e.target.value,
+      error: ''  // Clear error when user starts typing
+    }));
+  };
+
+  // Shorten URL handler
+  const handleShorten = async (): Promise<void> => {
+    const url = formState.originalUrl.trim();
+
+    // Initial validation
+    if (!url) {
+      setFormState(prev => ({
+        ...prev,
+        error: 'Please enter a URL to shorten.'
+      }));
       return;
     }
 
-    setIsLoading(true);
-    setErro('');
+    if (!isValidUrl(url)) {
+      setFormState(prev => ({
+        ...prev,
+        error: 'Please enter a valid URL (e.g., https://example.com)'
+      }));
+      return;
+    }
+
+    setFormState(prev => ({ ...prev, isLoading: true, error: '' }));
 
     try {
-      const response = await encurtarUrl(urlOriginal);
+      const response: UrlResponse = await encurtarUrl(url);
 
       if (response.urlCode) {
         const formattedUrl = `http://localhost:5001/api/url/${response.urlCode}`;
-        setUrlEncurtada(formattedUrl);
-        setErro('');
+        setFormState(prev => ({
+          ...prev,
+          shortenedUrl: formattedUrl,
+          showSuccessMessage: true
+        }));
       } else {
-        setErro('Erro ao gerar o código da URL.');
+        throw new Error(response.error || 'Error generating URL code.');
       }
     } catch (error) {
-      setErro('Ocorreu um erro ao encurtar a URL.');
+      setFormState(prev => ({
+        ...prev,
+        error: error instanceof Error 
+          ? error.message 
+          : 'An error occurred while shortening the URL. Please try again.'
+      }));
     } finally {
-      setIsLoading(false);
+      setFormState(prev => ({ ...prev, isLoading: false }));
     }
   };
 
-  const handleCopyUrl = async () => {
+  // Copy URL handler
+  const handleCopyUrl = useCallback(async (): Promise<void> => {
     try {
-      await navigator.clipboard.writeText(urlEncurtada);
-      const button = document.querySelector('.copy-button');
-      if (button) {
-        button.textContent = 'Copiado!';
-        setTimeout(() => {
-          button.textContent = 'Copiar URL';
-        }, 2000);
-      }
+      await navigator.clipboard.writeText(formState.shortenedUrl);
+      setFormState(prev => ({ ...prev, isCopied: true }));
+      
+      // Reset copy state after 2 seconds
+      setTimeout(() => {
+        setFormState(prev => ({ ...prev, isCopied: false }));
+      }, 2000);
     } catch (err) {
-      console.error('Erro ao copiar URL:', err);
+      console.error('Error copying URL:', err);
+      setFormState(prev => ({
+        ...prev,
+        error: 'Unable to copy URL. Please try copying manually.'
+      }));
+    }
+  }, [formState.shortenedUrl]);
+
+  // Enter key handler
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter' && !formState.isLoading) {
+      handleShorten();
     }
   };
+
+  // Features data
+  const features = [
+    {
+      icon: '⚡',
+      title: 'Fast',
+      description: 'Instantly shorten your URLs'
+    },
+    {
+      icon: '🔒',
+      title: 'Secure',
+      description: 'Safe and reliable links'
+    },
+    {
+      icon: '📊',
+      title: 'Analytics',
+      description: 'Track usage statistics'
+    }
+  ];
 
   return (
     <div className="home-container">
+      {/* Hero Section */}
       <div className="hero-section">
         <h1 className="main-title">
-          <span className="gradient-text">Encurte</span> suas URLs
+          <span className="gradient-text">Shorten</span> your URLs
         </h1>
         <p className="subtitle">
-          Transforme links longos em URLs curtas e fáceis de compartilhar
+          Transform long links into short, shareable URLs
         </p>
       </div>
 
+      {/* Main Card */}
       <div className="card-container">
+        {/* Input Section */}
         <div className="input-wrapper">
           <input
             className="url-input"
-            type="text"
-            placeholder="Cole a URL aqui para encurtar..."
-            value={urlOriginal}
-            onChange={(e) => setUrlOriginal(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleEncurtar()}
+            type="url"
+            placeholder="Paste your URL here to shorten..."
+            value={formState.originalUrl}
+            onChange={handleUrlChange}
+            onKeyPress={handleKeyPress}
+            disabled={formState.isLoading}
           />
           <button 
-            className={`shorten-button ${isLoading ? 'loading' : ''}`}
-            onClick={handleEncurtar}
-            disabled={isLoading}
+            className={`shorten-button ${formState.isLoading ? 'loading' : ''}`}
+            onClick={handleShorten}
+            disabled={formState.isLoading}
+            type="button"
           >
-            {isLoading ? (
-              <div className="spinner"></div>
+            {formState.isLoading ? (
+              <div className="spinner" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
             ) : (
-              'Encurtar URL'
+              'Shorten URL'
             )}
           </button>
         </div>
 
-        {erro && (
-          <div className="error-container">
+        {/* Error Message */}
+        {formState.error && (
+          <div className="error-container" role="alert">
             <span className="error-icon">!</span>
-            <p className="error-message">{erro}</p>
+            <p className="error-message">{formState.error}</p>
           </div>
         )}
 
-        {urlEncurtada && (
-          <div className="result-container">
+        {/* Success Result */}
+        {formState.shortenedUrl && (
+          <div className="result-container" role="region">
             <div className="result-header">
               <span className="success-icon">✓</span>
-              <h3>URL encurtada com sucesso!</h3>
+              <h3>URL shortened successfully!</h3>
             </div>
             <div className="shortened-url-container">
               <a
-                href={urlEncurtada}
+                href={formState.shortenedUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="shortened-url"
               >
-                {urlEncurtada}
+                {formState.shortenedUrl}
               </a>
               <button 
                 className="copy-button"
                 onClick={handleCopyUrl}
+                type="button"
               >
-                Copiar URL
+                {formState.isCopied ? 'Copied!' : 'Copy URL'}
               </button>
             </div>
           </div>
         )}
       </div>
 
+      {/* Features Section */}
       <div className="features-section">
-        <div className="feature-card">
-          <div className="feature-icon">⚡</div>
-          <h3>Rápido</h3>
-          <p>Encurte URLs instantaneamente</p>
-        </div>
-        <div className="feature-card">
-          <div className="feature-icon">🔒</div>
-          <h3>Seguro</h3>
-          <p>Links seguros e confiáveis</p>
-        </div>
-        <div className="feature-card">
-          <div className="feature-icon">📊</div>
-          <h3>Análises</h3>
-          <p>Acompanhe estatísticas de uso</p>
-        </div>
+        {features.map((feature, index) => (
+          <div key={index} className="feature-card">
+            <div className="feature-icon">{feature.icon}</div>
+            <h3>{feature.title}</h3>
+            <p>{feature.description}</p>
+          </div>
+        ))}
       </div>
 
+      {/* CTA Section */}
       <div className="cta-section">
-        <p>Quer mais recursos avançados?</p>
+        <p>Want more advanced features?</p>
         <button 
           className="login-button"
           onClick={() => navigate('/login')}
+          type="button"
         >
-          Fazer Login
+          Login
         </button>
       </div>
     </div>
