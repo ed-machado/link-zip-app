@@ -50,7 +50,7 @@ Antes de configurar o projeto, certifique-se de ter os seguintes itens instalado
 1. **Clone o repositório:**
 
    ```bash
-   git clone https://github.com/seu-usuario/linkzip.git
+   git clone https://github.com/ed-machado/link-zip-app.git
    cd linkzip
    ```
 
