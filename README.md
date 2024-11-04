@@ -51,7 +51,7 @@ Antes de configurar o projeto, certifique-se de ter os seguintes itens instalado
 
    ```bash
    git clone https://github.com/ed-machado/link-zip-app.git
-   cd linkzip
+   cd link-zip-app
    ```
 
 2. **Configuração do `.env` para o servidor:**
