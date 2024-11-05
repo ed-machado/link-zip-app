@@ -56,12 +56,7 @@ Antes de configurar o projeto, certifique-se de ter os seguintes itens instalado
 
 2. **Configuração do `.env` para o servidor:**
    
-   Crie um arquivo `.env` na pasta `server/` com as seguintes variáveis de ambiente:
-   ```dotenv
-   PORT=5001
-   MONGO_URI=mongodb://mongo:27017/linkzip
-   JWT_SECRET=sua_chave_secreta
-   ```
+   Use o arquivo `.envexemple` na pasta `server/` e deixe-o com o nome `.env`:
 
 3. **Configuração do Docker Compose:**
 
