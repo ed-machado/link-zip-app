@@ -1,9 +1,12 @@
-# LinkZip
+<p align="center">
+  <img src="https://drive.google.com/uc?id=1sPNlvKpbmO5qRaC_QFyu4OuLKiT5blOH" alt="LinkZip Logo" width="250"/>
+</p>
 
-LinkZip é um encurtador de URLs com suporte a autenticação de usuários. O sistema permite aos usuários encurtar URLs com e sem autenticação, registrar suas URLs encurtadas para fácil acesso e gerenciar suas URLs por meio de uma interface de usuário. 
+<p align="center">
+  <b>LinkZip é um encurtador de URLs com autenticação de usuários, oferecendo uma interface intuitiva para encurtar, gerenciar e monitorar links.</b>
+</p>
 
-### Índice
-
+## Índice
 - [Visão Geral](#visão-geral)
 - [Funcionalidades](#funcionalidades)
 - [Pré-requisitos](#pré-requisitos)
@@ -11,74 +14,50 @@ LinkZip é um encurtador de URLs com suporte a autenticação de usuários. O si
 - [Testando Endpoints](#testando-endpoints)
 - [Escalabilidade e Pontos de Melhoria](#escalabilidade-e-pontos-de-melhoria)
 
----
-
 ## Visão Geral
 
-Este projeto é um aplicativo monorepo com duas principais partes:
-- **Server:** um backend Express para gerenciar autenticação, URLs e comunicação com o banco de dados MongoDB.
-- **Client:** uma aplicação React que oferece uma interface de usuário para encurtamento e gerenciamento de URLs.
+O projeto LinkZip é estruturado como um monorepo, contendo as seguintes partes principais:
+
+- **Server:** Backend desenvolvido com Express para gerenciar autenticação, URLs, e comunicação com o banco de dados MongoDB.
+- **Client:** Interface de usuário em React para encurtamento e gerenciamento de URLs.
 
 ## Funcionalidades
 
-1. **Encurtamento de URLs**
-   - URLs podem ser encurtadas por qualquer usuário, autenticado ou não.
-   - URLs encurtadas de usuários autenticados são salvas para gerenciamento futuro.
-
-2. **Autenticação de Usuário**
-   - Suporte a registro, login e logout.
-   - Recuperação de senha e redefinição de senha.
-   
-3. **Gerenciamento de URLs**
-   - Usuários autenticados podem visualizar, editar e deletar suas URLs encurtadas.
-   - Contagem de visitas para cada URL encurtada.
-
-4. **Feedback do Usuário**
-   - Notificações visuais com sucesso ou erro para todas as operações.
-
----
+- **Encurtamento de URLs:** URLs podem ser encurtadas por qualquer usuário, autenticado ou não. URLs encurtadas por usuários autenticados são salvas para acesso e gerenciamento futuro.
+- **Autenticação de Usuário:** Suporte para registro, login, logout e recuperação de senha.
+- **Gerenciamento de URLs:** Usuários autenticados podem visualizar, editar, deletar URLs e visualizar contagens de visitas.
+- **Feedback do Usuário:** Notificações visuais de sucesso ou erro para todas as operações.
 
 ## Pré-requisitos
 
-Antes de configurar o projeto, certifique-se de ter os seguintes itens instalados:
+Certifique-se de ter instalado:
+
 - Docker
 - Docker Compose
-- Node.js (para o desenvolvimento)
+- Node.js (para desenvolvimento)
 
 ## Instruções de Configuração e Execução
 
 1. **Clone o repositório:**
-
    ```bash
    git clone https://github.com/ed-machado/link-zip-app.git
    cd link-zip-app
    ```
-
 2. **Configuração do `.env` para o servidor:**
-   
-   Use o arquivo `.envexemple` na pasta `server/` e deixe-o com o nome `.env`:
-
-3. **Configuração do Docker Compose:**
-
-   O projeto já inclui um arquivo `docker-compose.yml` que configura o MongoDB, o client, e o server. Certifique-se de estar na raiz do projeto e execute:
-
+   Copie o `.envexemple` na pasta `server/` para `.env` e ajuste conforme necessário.
+3. **Execução com Docker Compose:**
+   Na raiz do projeto, execute:
    ```bash
    docker-compose up --build
    ```
-
-   Isso iniciará a aplicação na URL `http://localhost:3000` (client) e o servidor backend na URL `http://localhost:5001/api`.
-
+   - A aplicação estará disponível em `http://localhost:3000` (client) e `http://localhost:5001/api` (backend).
 4. **Executando sem Docker (opcional):**
-
-   Caso prefira, é possível rodar o client e o server manualmente:
-
    - **Server:**
      ```bash
      cd server
      npm install
      npm run dev
      ```
-
    - **Client:**
      ```bash
      cd client
@@ -86,81 +65,37 @@ Antes de configurar o projeto, certifique-se de ter os seguintes itens instalado
      yarn start
      ```
 
----
-
 ## Testando Endpoints
 
-Após o projeto estar em execução, você pode testar os endpoints usando uma ferramenta como o Postman ou o curl.
+### 1. Autenticação
 
-### 1. **Autenticação**
+   - **Registro:** `POST /api/user`
+     ```json
+     { "fullName": "Seu Nome", "email": "email@example.com", "password": "senha" }
+     ```
+   - **Login:** `POST /api/user/login`
+     ```json
+     { "email": "email@example.com", "password": "senha" }
+     ```
+   - **Logout:** Limpa o `localStorage` no client e redireciona o usuário.
 
-   - **Registro de Usuário**
-     - **Endpoint:** `POST /api/user`
-     - **Payload:**
-       ```json
-       {
-         "fullName": "Seu Nome",
-         "email": "email@example.com",
-         "password": "senha"
-       }
-       ```
+### 2. Gerenciamento de URLs
 
-   - **Login de Usuário**
-     - **Endpoint:** `POST /api/user/login`
-     - **Payload:**
-       ```json
-       {
-         "email": "email@example.com",
-         "password": "senha"
-       }
-       ```
-   - **Logout de Usuário**
-     - O logout é gerenciado no client ao limpar o `localStorage` e redirecionar o usuário para a página de login.
-
-### 2. **Gerenciamento de URLs**
-
-   - **Encurtar URL**
-     - **Endpoint (sem autenticação):** `POST /api/url`
-     - **Payload:**
-       ```json
-       {
-         "originalLink": "https://example.com"
-       }
-       ```
-     - **Endpoint (com autenticação):** `POST /api/url`
-       - Adicione o campo `"userId": "<user-id>"` no payload.
-
-   - **Obter URLs do Usuário**
-     - **Endpoint:** `GET /api/url/user/:userId`
-     - **Autorização:** JWT Token
-
-   - **Deletar URL**
-     - **Endpoint:** `DELETE /api/url/:urlCode`
-     - **Autorização:** JWT Token
-
-   - **Atualizar URL**
-     - **Endpoint:** `PUT /api/url/:urlCode`
-     - **Autorização:** JWT Token
-
----
+   - **Encurtar URL:** `POST /api/url` (sem autenticação)
+     ```json
+     { "originalLink": "https://example.com" }
+     ```
+   - **Obter URLs do Usuário:** `GET /api/url/user/:userId`
+   - **Deletar URL:** `DELETE /api/url/:urlCode`
+   - **Atualizar URL:** `PUT /api/url/:urlCode`
 
 ## Escalabilidade e Pontos de Melhoria
 
-Para escalar o LinkZip horizontalmente, os seguintes pontos devem ser considerados:
+Para melhorar a escalabilidade e o desempenho do LinkZip, considere:
 
-1. **Autenticação**
-   - Migrar a autenticação para um serviço separado, com tokens JWT sendo validados em um serviço central para suportar múltiplas instâncias do server.
+1. **Autenticação Descentralizada:** Separar a autenticação para um serviço independente, com verificação centralizada de tokens JWT.
+2. **Caching:** Utilizar Redis para cache de URLs e tokens, reduzindo o tempo de resposta e aliviando o banco de dados.
+3. **Monitoramento e Logging:** Implementar monitoramento (Prometheus, Grafana) e logging centralizado (ELK Stack) para análise de erros e tráfego.
+4. **CI/CD e Testes Automatizados:** Configurar pipelines CI/CD para automação do deploy e incluir testes unitários e de integração para garantir confiabilidade.
 
-2. **Caching**
-   - Implementar caching com Redis para armazenar URLs de alta demanda e melhorar a velocidade de resposta.
-   - Cachear também tokens de autenticação para validação rápida e evitar consultas frequentes ao banco de dados.
-
-3. **Monitoramento e Logging**
-   - Configurar monitoramento com ferramentas como Prometheus e Grafana para monitorar a saúde e o desempenho do sistema.
-   - Integrar um sistema de logging centralizado, como ELK Stack (Elasticsearch, Logstash, Kibana), para coletar e analisar logs de erro e tráfego.
-
-4. **CI/CD e Testes**
-   - Automatizar o deploy com pipelines de CI/CD para permitir atualizações rápidas e seguras.
-   - Adicionar testes unitários e de integração, cobrindo casos de autenticação, gerenciamento de URLs, e resposta de erros para maior confiabilidade do sistema.
-
-Esses ajustes ajudarão a manter a performance e a disponibilidade do LinkZip conforme o uso da aplicação crescer.
+Essas melhorias aumentarão a performance e a resiliência do LinkZip, especialmente em ambientes de alta demanda.
